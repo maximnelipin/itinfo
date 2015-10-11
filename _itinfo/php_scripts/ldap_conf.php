@@ -5,7 +5,7 @@
 	//Порт подключения ldap
 	$port = "389";
 	//Путь к группе, которая имеет доступ к Справочнику
-	$groupit= "CN='Администраторы домена',CN=Users,DC=du,DC=i-net,DC=su";
+	$groupit= "CN=it_core,OU=Security Groups,OU=Groups,DC=du,DC=i-net,DC=su";
 	//Область поиска учётных записей сотрудников отдела ИТ
 	$itou= "OU=users,OU=IT Dep,DC=du,DC=i-net,DC=su";
 	//Домен

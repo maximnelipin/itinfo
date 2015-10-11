@@ -21,7 +21,7 @@
 	//Если пользователь уже аутентифицирован, то перенапраялем его на Главную
 	if (isset($_SESSION['user_id']))
 		{
-			header('Locaition: php_scripts/main.php');
+			header('Locaition: main.php');
 			exit;
 	}
 	
@@ -31,6 +31,31 @@
 		$usr=$_POST['login'];
 		$login=$_POST['login'].$domain;
 		$pwd=$_POST['pwd'];
+		//Коннектимся к КД
+		$conn=ldap_connect($host, $port) or die("LDAP сервер недоступпен");
+		//Включаем протокол третьей версии
+		ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
+		if($conn)
+		{
+			//Входим в ldap с полученными учётными данными
+			$bind=ldap_bind($conn,$login,$pwd);
+			if($bind)
+			{
+				//проверка на принадлежность пользователя группе
+				$check=ldap_search($conn, $itou, "(&(memberOf=".$groupit.")(sAMAccountName=".$usr."))");
+				//Проверяем, есть ли результаты предыдущего запроса
+				$check_num=ldap_get_entries($conn, $check);
+			}
+			else die("Введён неверный логин или праоль. <a href='index.php'> Попробовать ещё раз </a>");
+		}
+		//Если пользователь принадлежит группе, пускаем на главную
+		if ($check_num['count']!=0)
+		{
+			$_SESSION['user_id']=$login;
+			header("Location: main.php");
+			exit;
+		}
+		else die ("Доступ закрыт. <a href='index.php'> Попробовать ещё раз </a>");
 		
 	}
 ?>

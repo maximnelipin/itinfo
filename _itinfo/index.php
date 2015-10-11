@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
 <?php
-	include_once ('php_scripts/auth.php');
+	include_once ('auth.php');
 ?>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=cp1251">
 <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 <title>Справочник</title>
 </head>
